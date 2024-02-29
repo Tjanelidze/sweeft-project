@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './Header';
+import MainNav from './MainNav';
 
 const StyledAppLayout = styled.div`
   height: 100vh;
@@ -18,6 +19,7 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: 130rem;
   display: flex;
+  flex-direction: column;
 `;
 
 export default function AppLayout() {
@@ -26,6 +28,7 @@ export default function AppLayout() {
       <Header />
       <Main>
         <Container>
+          <MainNav />
           <Outlet />
         </Container>
       </Main>
