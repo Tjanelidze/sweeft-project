@@ -4,20 +4,24 @@ import AppLayout from './ui/AppLayout';
 import PageNotFound from './pages/PageNotFound';
 import History from './pages/History';
 import Home from './pages/Home.tsx';
+import GlobalStyles from './styles/GlobalStyles.ts';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AppLayout />}>
-          <Route index element={<Navigate replace to="home" />} />
-          <Route path="home" element={<Home />} />
-          <Route path="history" element={<History />} />
-        </Route>
+    <>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate replace to="home" />} />
+            <Route path="home" element={<Home />} />
+            <Route path="history" element={<History />} />
+          </Route>
 
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
