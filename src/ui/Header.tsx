@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import SearchBar from './SearchBar';
+import SearchBar from '../features/gallery/SearchBar';
 
 const StyledHeader = styled.header`
   background-color: #555;
