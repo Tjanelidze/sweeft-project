@@ -1,7 +1,7 @@
 export interface UnsplashImage {
   id: string;
-  alt_description: string | null;
-  urls: {
+  alt: string | null;
+  url: {
     regular: string;
   };
 }

@@ -2,7 +2,7 @@ const apiKey = import.meta.env.VITE_ACCESS_KEY;
 
 export default async function apiGallery(searchQuery: string) {
   const res = await fetch(
-    `https://api.unsplash.com/search/photos?page=1&query=${searchQuery}`,
+    `https://api.unsplash.com/search/photos?page=1&query=${searchQuery}&per_page=20`,
     {
       headers: {
         Authorization: `Client-ID ${apiKey}`,
