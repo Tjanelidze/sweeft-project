@@ -1,9 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import apiGallery from '../../services/apiGallery';
-import Spinner from '../../ui/Spinner';
-import { useLoading } from '../../context/LoadingContext';
-import { useEffect } from 'react';
+import useGallery from './useGallery';
+import { useEffect, useState } from 'react';
 
 const Input = styled.input`
   border: 1px solid #777;
@@ -17,22 +14,19 @@ const Input = styled.input`
 `;
 
 export default function SearchBar() {
-  const { setIsLoading } = useLoading();
+  const [searchQuery, setSearchQuery] = useState('');
+  useGallery(searchQuery);
 
-  const {
-    isLoading,
-    data: images,
-    error,
-  } = useQuery({
-    queryKey: ['images'],
-    queryFn: apiGallery,
-  });
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchQuery(value);
+  };
 
-  useEffect(() => {
-    if (!isLoading) {
-      setIsLoading(false);
-    }
-  }, [isLoading, setIsLoading]);
-
-  return <Input placeholder="search for free photos" />;
+  return (
+    <Input
+      value={searchQuery}
+      onChange={handleInputChange}
+      placeholder="search for free photos"
+    />
+  );
 }
