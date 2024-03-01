@@ -7,11 +7,10 @@ export default function useGallery(searchQuery: string) {
     isLoading,
     data: images,
     error,
-    refetch,
   } = useQuery({
     queryKey: ['images', searchQuery],
     queryFn: () => apiGallery(searchQuery),
   });
 
-  return { isLoading, images, error, refetch };
+  return { isLoading, images, error };
 }

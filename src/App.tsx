@@ -7,10 +7,12 @@ import PageNotFound from './pages/PageNotFound';
 import History from './pages/History';
 import Home from './pages/Home.tsx';
 import GlobalStyles from './styles/GlobalStyles.ts';
+import { ImageProvider } from './context/ImageContext.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      // staleTime: 60 * 1000,
       staleTime: 0,
     },
   },
@@ -18,21 +20,23 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <GlobalStyles />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="home" />} />
-            <Route path="home" element={<Home />} />
-            <Route path="history" element={<History />} />
-          </Route>
+    <ImageProvider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route index element={<Navigate replace to="home" />} />
+              <Route path="home" element={<Home />} />
+              <Route path="history" element={<History />} />
+            </Route>
 
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ImageProvider>
   );
 }
 

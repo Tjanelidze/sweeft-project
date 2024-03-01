@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import useGallery from './useGallery';
 import { useEffect, useState } from 'react';
+import { useImageContext } from '../../context/ImageContext';
+import { UnsplashImage } from '../../context/interfaces';
 
 const Input = styled.input`
   border: 1px solid #777;
@@ -14,13 +16,28 @@ const Input = styled.input`
 `;
 
 export default function SearchBar() {
+  const { updateImages, setIsLoading } = useImageContext();
   const [searchQuery, setSearchQuery] = useState('');
-  useGallery(searchQuery);
+  const { isLoading, images, error } = useGallery(searchQuery);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchQuery(value);
   };
+
+  useEffect(() => {
+    if (!isLoading && images) {
+      const formattedImages =
+        images.results &&
+        images.results.map((image: UnsplashImage) => ({
+          id: image.id,
+          url: image.urls.regular,
+          alt: image.alt_description,
+        }));
+      updateImages(formattedImages);
+    }
+    setIsLoading(isLoading);
+  }, [isLoading, images]);
 
   return (
     <Input
