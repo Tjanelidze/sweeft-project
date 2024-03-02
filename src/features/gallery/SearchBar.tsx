@@ -16,9 +16,9 @@ const Input = styled.input`
 `;
 
 export default function SearchBar() {
-  const { updateImages, setIsLoading } = useImageContext();
-  const [searchQuery, setSearchQuery] = useState('');
-  const { isLoading, images, error } = useGallery(searchQuery);
+  const { updateImages, setIsLoading, searchQuery, setSearchQuery } =
+    useImageContext();
+  const { isLoading, images } = useGallery(searchQuery);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -31,9 +31,11 @@ export default function SearchBar() {
         images.results &&
         images.results.map((image: UnsplashImage) => ({
           id: image.id,
-          url: image.urls.regular,
-          alt: image.alt_description,
+          urls: image.urls.regular,
+          alt_description: image.alt_description,
         }));
+      formattedImages.total = images.total;
+
       updateImages(formattedImages);
     }
     setIsLoading(isLoading);

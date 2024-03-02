@@ -12,7 +12,6 @@ const Gallery = styled.div`
   -webkit-column-width: 33%;
   -moz-column-width: 33%;
   column-width: 33%;
-  column-gap: 1rem; /* Column Gap */
 
   .images {
     padding: 0.5rem;

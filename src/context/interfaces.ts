@@ -1,9 +1,8 @@
 export interface UnsplashImage {
-  id: string;
-  alt: string | null;
-  url: {
-    regular: string;
-  };
+  alt_description: any;
+  urls: any;
+  id: any;
+  total: number;
 }
 
 export interface ImageContextType {
@@ -11,4 +10,8 @@ export interface ImageContextType {
   updateImages: (image: UnsplashImage[]) => void;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }

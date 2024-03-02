@@ -8,6 +8,8 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [searchedImages, setSearchedImages] = useState<ImageContextType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
 
   const updateImages = (images: ImageContextType[]) => {
     setSearchedImages(images);
@@ -15,7 +17,16 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <ImageContext.Provider
-      value={{ isLoading, setIsLoading, searchedImages, updateImages }}
+      value={{
+        isLoading,
+        setIsLoading,
+        searchedImages,
+        updateImages,
+        searchQuery,
+        setSearchQuery,
+        page,
+        setPage,
+      }}
     >
       {children}
     </ImageContext.Provider>
