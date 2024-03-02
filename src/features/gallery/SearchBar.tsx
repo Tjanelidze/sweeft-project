@@ -27,15 +27,15 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (!isLoading && images) {
-      const formattedImages =
-        images.results &&
-        images.results.map((image: UnsplashImage) => ({
+      console.log(images);
+      const formattedImages = images?.pages[0].results.map(
+        (image: UnsplashImage) => ({
           id: image.id,
           urls: image.urls.regular,
           alt_description: image.alt_description,
-        }));
-      formattedImages.total = images.total;
-
+        })
+      );
+      formattedImages.total = images.pages[0].total;
       updateImages(formattedImages);
     }
     setIsLoading(isLoading);
