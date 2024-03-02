@@ -11,8 +11,8 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const THRESHOLD = 1; // Adjust this threshold as needed
-  const ROOT_MARGIN = '-50px'; // Adjust this margin as needed
+  const THRESHOLD = 0.9; // Adjust this threshold as needed
+  const ROOT_MARGIN = '10%';
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastImageElementRef = useCallback(
@@ -29,8 +29,20 @@ export default function Home() {
           const targetRect = target.getBoundingClientRect();
           const distanceToBottom = window.innerHeight - targetRect.bottom;
 
+          // Calculate the height of the target element
+          const targetHeight = targetRect.height;
+
+          // Calculate the visible portion of the target element (as a ratio)
+          const visibleRatio = Math.max(
+            0,
+            Math.min(1, (targetHeight - distanceToBottom) / targetHeight)
+          );
+
+          // Check if the visible portion exceeds the threshold
+          const isAtBottom = visibleRatio >= THRESHOLD;
+
           // Check if the bottom of the target element is within a threshold distance from the bottom of the viewport
-          const isAtBottom = distanceToBottom < 100; // Adjust this threshold as needed
+          // const isAtBottom = distanceToBottom < 100; // Adjust this threshold as needed
 
           if (target === node && isIntersecting && isAtBottom && !isLoading) {
             console.log('last el');

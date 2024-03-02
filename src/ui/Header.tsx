@@ -8,7 +8,7 @@ const StyledHeader = styled.header`
   align-items: center;
   gap: 1.6rem;
   justify-content: center;
-  padding: 10rem 0;
+  padding: 15rem 0;
 
   h1 {
     font-size: 3rem;
