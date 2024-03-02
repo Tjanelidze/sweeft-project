@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import useGallery from './useGallery';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useImageContext } from '../../context/ImageContext';
 import { UnsplashImage } from '../../context/interfaces';
 
@@ -27,15 +27,16 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (!isLoading && images) {
-      console.log(images);
-      const formattedImages = images?.pages[0].results.map(
-        (image: UnsplashImage) => ({
-          id: image.id,
-          urls: image.urls.regular,
-          alt_description: image.alt_description,
-        })
-      );
-      formattedImages.total = images.pages[0].total;
+      const formattedImages =
+        images &&
+        images?.pages.map((items: any) =>
+          items.results.map((image: any) => ({
+            id: image.id,
+            urls: image.urls.regular,
+            alt_description: image.alt_description,
+          }))
+        );
+
       updateImages(formattedImages);
     }
     setIsLoading(isLoading);

@@ -3,15 +3,14 @@ import useGallery from '../features/gallery/useGallery';
 import { useImageContext } from '../context/ImageContext';
 import { ImageGallery } from '../ui/ImageGallery';
 import Spinner from '../ui/Spinner';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 
 export default function Home() {
-  const { isLoading, searchedImages, searchQuery, setPage } = useImageContext();
-  const { refetch } = useGallery(searchQuery);
-  const [hasMore, setHasMore] = useState(true);
-  const [pageNumber, setPageNumber] = useState(1);
+  const { isLoading, searchedImages, searchQuery } = useImageContext();
+  const { fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useGallery(searchQuery);
 
-  const THRESHOLD = 0.9; // Adjust this threshold as needed
+  const THRESHOLD = 0.9;
   const ROOT_MARGIN = '10%';
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -41,11 +40,8 @@ export default function Home() {
           // Check if the visible portion exceeds the threshold
           const isAtBottom = visibleRatio >= THRESHOLD;
 
-          // Check if the bottom of the target element is within a threshold distance from the bottom of the viewport
-          // const isAtBottom = distanceToBottom < 100; // Adjust this threshold as needed
-
           if (target === node && isIntersecting && isAtBottom && !isLoading) {
-            console.log('last el');
+            fetchNextPage();
           }
         },
         { threshold: THRESHOLD, rootMargin: ROOT_MARGIN }
@@ -53,32 +49,36 @@ export default function Home() {
 
       if (node || observer.current) observer.current.observe(node);
     },
-    [isLoading, hasMore]
+    [isLoading]
   );
 
   if (isLoading) return <Spinner />;
-
+  console.log(hasNextPage);
   return (
     <ImageGallery>
-      {searchedImages.map((image, index) => {
-        if (searchedImages.length === index + 1) {
-          return (
-            <figure
-              ref={lastImageElementRef}
-              key={image.id}
-              className="images lastImage"
-            >
-              <img src={`${image.urls}`} alt={`${image.alt_description}`} />
-            </figure>
-          );
-        } else {
-          return (
-            <figure key={image.id} className="images">
-              <img src={`${image.urls}`} alt={`${image.alt_description}`} />
-            </figure>
-          );
-        }
-      })}
+      {searchedImages?.map((images: any) =>
+        images.map((image: any, index: any) => {
+          if (images.length === index + 1) {
+            return (
+              <figure
+                ref={lastImageElementRef}
+                key={image.id}
+                className="images lastImage"
+              >
+                <img src={`${image.urls}`} alt={`${image.alt_description}`} />
+              </figure>
+            );
+          } else {
+            return (
+              <figure key={image.id} className="images">
+                <img src={`${image.urls}`} alt={`${image.alt_description}`} />
+              </figure>
+            );
+          }
+        })
+      )}
+
+      {isFetchingNextPage ? <Spinner /> : null}
     </ImageGallery>
   );
 }

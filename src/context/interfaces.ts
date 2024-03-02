@@ -1,4 +1,5 @@
 export interface UnsplashImage {
+  map(arg0: () => void): any;
   alt_description: any;
   urls: any;
   id: any;
@@ -12,6 +13,4 @@ export interface ImageContextType {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
