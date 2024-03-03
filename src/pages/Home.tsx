@@ -1,4 +1,3 @@
-// import { useLoading } from '../context/GalleryContext';
 import useGallery from '../features/gallery/useGallery';
 import { useImageContext } from '../context/ImageContext';
 import { ImageGallery } from '../ui/ImageGallery';
@@ -9,8 +8,7 @@ import { UnsplashImage } from '../context/interfaces';
 
 export default function Home() {
   const { isLoading, searchQuery, setTargetImage } = useImageContext();
-  const { fetchNextPage, isFetchingNextPage, isRefetching } =
-    useGallery(searchQuery);
+  const { fetchNextPage, isFetchingNextPage } = useGallery(searchQuery);
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSortBy = searchParams.get('sortBy') || 'latest';
   const [isOpen, setIsOpen] = useState(false);
@@ -62,6 +60,8 @@ export default function Home() {
   const handleOptions = function (e: React.ChangeEvent<HTMLSelectElement>) {
     const newSortBy = e.target.value;
     setSortBy(newSortBy);
+    searchParams.set('sortBy', newSortBy);
+    setSearchParams(searchParams);
   };
 
   const handleImageClick = function (image: UnsplashImage) {
@@ -77,7 +77,7 @@ export default function Home() {
     setSearchParams(searchParams);
   }, []);
 
-  if (isLoading || isRefetching) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <ImageGallery
@@ -90,7 +90,7 @@ export default function Home() {
       <div className="galleryHeader">
         <h2>Free Stock Photos</h2>
         <select
-          disabled={isLoading || isRefetching}
+          disabled={isLoading}
           name="images"
           id="images"
           onChange={handleOptions}
