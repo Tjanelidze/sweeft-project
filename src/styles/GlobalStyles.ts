@@ -75,6 +75,8 @@ img {
 
 
 }
+
+
 `;
 
 export default GlobalStyles;

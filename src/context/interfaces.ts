@@ -13,4 +13,6 @@ export interface ImageContextType {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  targetImage: UnsplashImage;
+  setTargetImage: React.Dispatch<React.SetStateAction<UnsplashImage>>;
 }

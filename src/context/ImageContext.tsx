@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { ImageContextType } from './interfaces';
+import { ImageContextType, UnsplashImage } from './interfaces';
 
 const ImageContext = createContext<ImageContextType | any>(undefined);
 
@@ -9,6 +9,7 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
   const [searchedImages, setSearchedImages] = useState<ImageContextType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [targetImage, setTargetImage] = useState<UnsplashImage>();
 
   const updateImages = (images: ImageContextType[]) => {
     setSearchedImages(images);
@@ -23,6 +24,8 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
         updateImages,
         searchQuery,
         setSearchQuery,
+        targetImage,
+        setTargetImage,
       }}
     >
       {children}

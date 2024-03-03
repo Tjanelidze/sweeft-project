@@ -3,15 +3,24 @@ import useGallery from '../features/gallery/useGallery';
 import { useImageContext } from '../context/ImageContext';
 import { ImageGallery } from '../ui/ImageGallery';
 import Spinner from '../ui/Spinner';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Modal from '../features/modal/Modal';
+import { UnsplashImage } from '../context/interfaces';
 
 export default function Home() {
-  const { isLoading, searchedImages, searchQuery } = useImageContext();
-  const { fetchNextPage, isFetchingNextPage, refetch, isRefetching } =
+  const {
+    isLoading,
+    searchedImages,
+    searchQuery,
+    targetImage,
+    setTargetImage,
+  } = useImageContext();
+  const { fetchNextPage, isFetchingNextPage, isRefetching } =
     useGallery(searchQuery);
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSortBy = searchParams.get('sortBy') || 'latest';
+  const [isOpen, setIsOpen] = useState(false);
 
   const [sortBy, setSortBy] = useState(initialSortBy);
 
@@ -64,6 +73,19 @@ export default function Home() {
     setSearchParams(searchParams);
   };
 
+  const handleImageClick = function (image: UnsplashImage) {
+    setIsOpen(true);
+    setTargetImage(image);
+    searchParams.set('imageId', image.id);
+    setSearchParams(searchParams);
+  };
+
+  useEffect(() => {
+    searchParams.delete('imageId');
+    searchParams.delete('sortBy');
+    setSearchParams(searchParams);
+  }, []);
+
   if (isLoading || isRefetching) return <Spinner />;
 
   return (
@@ -84,20 +106,25 @@ export default function Home() {
 
       <div className="gallery">
         {searchedImages?.map((images: any) =>
-          images.map((image: any, index: any) => {
+          images.map((image: UnsplashImage, index: number) => {
             if (images.length === index + 1) {
               return (
                 <figure
                   ref={lastImageElementRef}
                   key={image.id}
                   className="images lastImage"
+                  onClick={() => handleImageClick(image)}
                 >
                   <img src={`${image.urls}`} alt={`${image.alt_description}`} />
                 </figure>
               );
             } else {
               return (
-                <figure key={image.id} className="images">
+                <figure
+                  key={image.id}
+                  className="images"
+                  onClick={() => handleImageClick(image)}
+                >
                   <img src={`${image.urls}`} alt={`${image.alt_description}`} />
                 </figure>
               );
@@ -105,6 +132,18 @@ export default function Home() {
           })
         )}
       </div>
+      {isOpen && (
+        <Modal open={isOpen} setIsOpen={setIsOpen}>
+          {targetImage && (
+            <>
+              <img
+                src={`${targetImage.urls}`}
+                alt={`${targetImage.alt_description}`}
+              />
+            </>
+          )}
+        </Modal>
+      )}
 
       {isFetchingNextPage ? <Spinner /> : null}
     </ImageGallery>
