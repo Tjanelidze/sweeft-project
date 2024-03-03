@@ -5,17 +5,10 @@ import { ImageGallery } from '../ui/ImageGallery';
 import Spinner from '../ui/Spinner';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Modal from '../features/modal/Modal';
 import { UnsplashImage } from '../context/interfaces';
 
 export default function Home() {
-  const {
-    isLoading,
-    searchedImages,
-    searchQuery,
-    targetImage,
-    setTargetImage,
-  } = useImageContext();
+  const { isLoading, searchQuery, setTargetImage } = useImageContext();
   const { fetchNextPage, isFetchingNextPage, isRefetching } =
     useGallery(searchQuery);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,8 +62,6 @@ export default function Home() {
   const handleOptions = function (e: React.ChangeEvent<HTMLSelectElement>) {
     const newSortBy = e.target.value;
     setSortBy(newSortBy);
-    searchParams.set('sortBy', newSortBy);
-    setSearchParams(searchParams);
   };
 
   const handleImageClick = function (image: UnsplashImage) {
@@ -89,7 +80,13 @@ export default function Home() {
   if (isLoading || isRefetching) return <Spinner />;
 
   return (
-    <ImageGallery>
+    <ImageGallery
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      isFetchingNextPage={isFetchingNextPage}
+      lastImageElementRef={lastImageElementRef}
+      handleImageClick={handleImageClick}
+    >
       <div className="galleryHeader">
         <h2>Free Stock Photos</h2>
         <select
@@ -103,47 +100,6 @@ export default function Home() {
           <option value="relevant">Popular</option>
         </select>
       </div>
-
-      <div className="gallery">
-        {searchedImages?.map((images: any) =>
-          images.map((image: UnsplashImage, index: number) => {
-            if (images.length === index + 1) {
-              return (
-                <figure
-                  ref={lastImageElementRef}
-                  key={image.id}
-                  className="images lastImage"
-                  onClick={() => handleImageClick(image)}
-                >
-                  <img src={`${image.urls}`} alt={`${image.alt_description}`} />
-                </figure>
-              );
-            } else {
-              return (
-                <figure
-                  key={image.id}
-                  className="images"
-                  onClick={() => handleImageClick(image)}
-                >
-                  <img src={`${image.urls}`} alt={`${image.alt_description}`} />
-                </figure>
-              );
-            }
-          })
-        )}
-      </div>
-      {isOpen && (
-        <Modal open={isOpen} setIsOpen={setIsOpen}>
-          {targetImage && (
-            <>
-              <img
-                src={`${targetImage.urls}`}
-                alt={`${targetImage.alt_description}`}
-              />
-            </>
-          )}
-        </Modal>
-      )}
 
       {isFetchingNextPage ? <Spinner /> : null}
     </ImageGallery>

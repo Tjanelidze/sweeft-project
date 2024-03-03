@@ -34,13 +34,17 @@ const StyledHeader = styled.div`
 
 function History() {
   const [searchHistory, setSearchHistory] = useState([]);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const storedSearchHistory = localStorage.getItem('searchHistory');
     if (storedSearchHistory) {
       setSearchHistory(JSON.parse(storedSearchHistory));
     }
+
+    return () => {
+      searchParams.delete('history');
+    };
   }, [searchParams]);
 
   const handleClearHistory = () => {
@@ -48,19 +52,28 @@ function History() {
     setSearchHistory([]);
   };
 
-  return (
-    <div>
-      <StyledHeader>
-        <h2>Search History</h2>
-        <button onClick={handleClearHistory}>Clear History</button>
-      </StyledHeader>
-      <StyledList>
-        {searchHistory.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </StyledList>
-    </div>
-  );
+  const handleHistoryToggle = () => {
+    searchParams.set('history', 'on');
+    setSearchParams(searchParams);
+  };
+
+  {
+    return searchParams.get('history') === 'on' ? null : (
+      <div>
+        <StyledHeader>
+          <h2>Search History</h2>
+          <button onClick={handleClearHistory}>Clear History</button>
+        </StyledHeader>
+        <StyledList>
+          {searchHistory.map((item, index) => (
+            <li onClick={handleHistoryToggle} key={index}>
+              {item}
+            </li>
+          ))}
+        </StyledList>
+      </div>
+    );
+  }
 }
 
 export default History;

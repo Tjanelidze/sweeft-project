@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useImageContext } from '../context/ImageContext';
+import { UnsplashImage } from '../context/interfaces';
+import Modal from '../features/modal/Modal';
 
 type ImageGalleryProps = {
   children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isFetchingNextPage: boolean;
+  lastImageElementRef: (node: HTMLElement | null) => void;
+  handleImageClick: (image: UnsplashImage) => void;
 };
 
 const Gallery = styled.div`
@@ -49,6 +57,58 @@ const Gallery = styled.div`
   }
 `;
 
-export function ImageGallery({ children }: ImageGalleryProps) {
-  return <Gallery>{children}</Gallery>;
+export function ImageGallery({
+  children,
+  isOpen,
+  setIsOpen,
+  lastImageElementRef,
+  handleImageClick,
+}: ImageGalleryProps) {
+  const { searchedImages, targetImage } = useImageContext();
+
+  return (
+    <Gallery>
+      {children}
+      <div className="gallery">
+        {searchedImages?.map((images: any) =>
+          images.map((image: UnsplashImage, index: number) => {
+            if (images.length === index + 1) {
+              return (
+                <figure
+                  ref={lastImageElementRef}
+                  key={image.id}
+                  className="images lastImage"
+                  onClick={() => handleImageClick(image)}
+                >
+                  <img src={`${image.urls}`} alt={`${image.alt_description}`} />
+                </figure>
+              );
+            } else {
+              return (
+                <figure
+                  key={image.id}
+                  className="images"
+                  onClick={() => handleImageClick(image)}
+                >
+                  <img src={`${image.urls}`} alt={`${image.alt_description}`} />
+                </figure>
+              );
+            }
+          })
+        )}
+      </div>
+      {isOpen && (
+        <Modal open={isOpen} setIsOpen={setIsOpen}>
+          {targetImage && (
+            <>
+              <img
+                src={`${targetImage.urls}`}
+                alt={`${targetImage.alt_description}`}
+              />
+            </>
+          )}
+        </Modal>
+      )}
+    </Gallery>
+  );
 }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import useGallery from './useGallery';
 import { useEffect, useRef } from 'react';
 import { useImageContext } from '../../context/ImageContext';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Input = styled.input`
   border: 1px solid #777;
@@ -21,6 +21,7 @@ export default function SearchBar() {
   const { isLoading, images } = useGallery(searchQuery);
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -43,6 +44,7 @@ export default function SearchBar() {
         'searchHistory',
         JSON.stringify([...new Set(searchHistory)])
       );
+      navigate('/home');
     }
   };
 
