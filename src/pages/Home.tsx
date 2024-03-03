@@ -3,13 +3,17 @@ import useGallery from '../features/gallery/useGallery';
 import { useImageContext } from '../context/ImageContext';
 import { ImageGallery } from '../ui/ImageGallery';
 import Spinner from '../ui/Spinner';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export default function Home() {
   const { isLoading, searchedImages, searchQuery } = useImageContext();
-  const { fetchNextPage, isFetchingNextPage } = useGallery(searchQuery);
+  const { fetchNextPage, isFetchingNextPage, refetch, isRefetching } =
+    useGallery(searchQuery);
   const [searchParams, setSearchParams] = useSearchParams();
+  const initialSortBy = searchParams.get('sortBy') || 'latest';
+
+  const [sortBy, setSortBy] = useState(initialSortBy);
 
   const THRESHOLD = 0.9;
   const ROOT_MARGIN = '10%';
@@ -54,19 +58,27 @@ export default function Home() {
   );
 
   const handleOptions = function (e: React.ChangeEvent<HTMLSelectElement>) {
-    searchParams.set('sortBy', e.target.value);
+    const newSortBy = e.target.value;
+    setSortBy(newSortBy);
+    searchParams.set('sortBy', newSortBy);
     setSearchParams(searchParams);
   };
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isRefetching) return <Spinner />;
 
   return (
     <ImageGallery>
       <div className="galleryHeader">
         <h2>Free Stock Photos</h2>
-        <select name="images" id="images" onChange={handleOptions}>
+        <select
+          disabled={isLoading || isRefetching}
+          name="images"
+          id="images"
+          onChange={handleOptions}
+          value={sortBy}
+        >
           <option value="latest">latest</option>
-          <option value="popular">Popular</option>
+          <option value="relevant">Popular</option>
         </select>
       </div>
 

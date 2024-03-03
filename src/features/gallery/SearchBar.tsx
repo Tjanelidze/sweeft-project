@@ -20,7 +20,6 @@ export default function SearchBar() {
   const { updateImages, setIsLoading, searchQuery, setSearchQuery } =
     useImageContext();
   const { isLoading, images } = useGallery(searchQuery);
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -41,8 +40,7 @@ export default function SearchBar() {
 
       updateImages(formattedImages);
     }
-    searchParams.set('sortBy', 'latest');
-    setSearchParams(searchParams);
+
     setIsLoading(isLoading);
   }, [isLoading, images]);
 

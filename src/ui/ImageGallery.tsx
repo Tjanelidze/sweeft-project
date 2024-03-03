@@ -18,6 +18,7 @@ const Gallery = styled.div`
   .galleryHeader {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 5rem;
 
     & h2 {
       font-weight: 600;

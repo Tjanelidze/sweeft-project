@@ -1,20 +1,24 @@
+import { useSearchParams } from 'react-router-dom';
 import apiGallery from '../../services/apiGallery';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 export default function useGallery(searchQuery: string) {
+  const [searchParams] = useSearchParams();
+  const sortBy = searchParams.get('sortBy') || 'latest';
+
   const {
     isLoading,
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+    isRefetching,
+    refetch,
     data: images,
     status,
-    refetch,
-    error,
   } = useInfiniteQuery({
-    queryKey: ['images', searchQuery],
-    queryFn: ({ pageParam }) => apiGallery({ searchQuery, pageParam }),
+    queryKey: ['images', searchQuery, sortBy],
+    queryFn: ({ pageParam }) => apiGallery({ searchQuery, pageParam, sortBy }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = lastPage.results.length
@@ -29,9 +33,9 @@ export default function useGallery(searchQuery: string) {
     images,
     status,
     refetch,
-    error,
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
+    isRefetching,
   };
 }
