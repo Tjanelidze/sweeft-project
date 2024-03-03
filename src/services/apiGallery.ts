@@ -1,4 +1,5 @@
 const apiKey = import.meta.env.VITE_ACCESS_KEY;
+console.log(apiKey);
 interface Props {
   searchQuery: string;
   pageParam?: number;
