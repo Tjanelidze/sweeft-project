@@ -3,6 +3,7 @@ import useGallery from './useGallery';
 import { useEffect, useRef } from 'react';
 import { useImageContext } from '../../context/ImageContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { UnsplashImage } from '../../context/interfaces';
 
 const Input = styled.input`
   border: 1px solid #777;
@@ -61,8 +62,8 @@ export default function SearchBar() {
     if (!isLoading && images) {
       const formattedImages =
         images &&
-        images?.pages.map((items: any) =>
-          items.results.map((image: any) => ({
+        images?.pages.map((items) =>
+          items.results.map((image: UnsplashImage) => ({
             id: image.id,
             urls: image.urls.regular,
             alt_description: image.alt_description,

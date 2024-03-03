@@ -63,8 +63,8 @@ function History() {
     if (!isLoading && images) {
       const formattedImages =
         images &&
-        images?.pages.map((items: any) =>
-          items.results.map((image: any) => ({
+        images?.pages.map((items) =>
+          items.results.map((image: UnsplashImage) => ({
             id: image.id,
             urls: image.urls.regular,
             alt_description: image.alt_description,

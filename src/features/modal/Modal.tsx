@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import ReactDOM from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -49,7 +49,7 @@ export default function Modal({
   open,
   setIsOpen,
 }: {
-  children: any;
+  children: ReactNode;
   open: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
