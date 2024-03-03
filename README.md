@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Sweeft Acceleration Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the Sweeft Acceleration project README! This project was undertaken by Tedo Janelidze, aimed at creating a dynamic website with advanced functionalities utilizing React, Vite, TypeScript, and various other libraries.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The Sweeft Acceleration project focuses on developing a website that harnesses the power of the Unsplash API to fetch images dynamically based on scrolling. Additionally, the website includes a modal window feature that displays detailed information about each image, including the number of likes, views, and downloads.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Scroll Fetch**: Utilizes the Unsplash API to fetch images dynamically as the user scrolls through the website.
+- **Modal Window**: Clicking on an image opens a modal window, providing detailed information such as likes, views, and downloads.
+- **Search History**: Includes a history page where users can view keywords they have searched for. Clicking on a keyword renders the corresponding search results.
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies Used
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **React**: Used as the primary JavaScript library for building user interfaces.
+- **Vite**: Employed as a fast build tool for modern web development.
+- **TypeScript**: Provides type-checking capabilities to ensure code reliability and maintainability.
+- **useQuery and useInfiniteQuery**: Utilized for efficient data fetching and pagination.
+- **react-router-dom**: Enables navigation and routing within the React application.
+- **styled-components**: Used for styling components with a focus on component-level styling and reusability.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Project Link
+
+The project is hosted on Vercel and can be accessed at [sweeft-project-five.vercel.app](https://sweeft-project-five.vercel.app/). Feel free to explore the website and its features!
+
+## Getting Started
+
+To run this project locally, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/your-username/sweeft-acceleration-project.git`
+2. Navigate to the project directory: `cd sweeft-acceleration-project`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm start`
+
+## Contributors
+
+- Tedo Janelidze
+
+## Feedback
+
+If you have any feedback, suggestions, or issues regarding the project, feel free to open an issue on the GitHub repository.
+
+Thank you for checking out the Sweeft Acceleration project! Happy coding! 🚀
