@@ -29,7 +29,7 @@ The project is hosted on Vercel and can be accessed at [sweeft-project-five.verc
 
 To run this project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/sweeft-acceleration-project.git`
+1. Clone the repository: `git clone https://github.com/Tjanelidze/sweeft-project.git`
 2. Navigate to the project directory: `cd sweeft-acceleration-project`
 3. Install dependencies: `npm install`
 4. Start the development server: `npm start`
