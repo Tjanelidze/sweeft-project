@@ -40,6 +40,11 @@ const Gallery = styled.div`
       background-color: #fff;
       border-radius: 4px;
     }
+
+    & p {
+      font-weight: bold;
+      font-size: 2rem;
+    }
   }
 
   .images {
