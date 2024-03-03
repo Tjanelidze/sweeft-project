@@ -3,6 +3,7 @@ import useGallery from './useGallery';
 import { useEffect } from 'react';
 import { useImageContext } from '../../context/ImageContext';
 import { UnsplashImage } from '../../context/interfaces';
+import { useSearchParams } from 'react-router-dom';
 
 const Input = styled.input`
   border: 1px solid #777;
@@ -19,6 +20,7 @@ export default function SearchBar() {
   const { updateImages, setIsLoading, searchQuery, setSearchQuery } =
     useImageContext();
   const { isLoading, images } = useGallery(searchQuery);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -39,6 +41,8 @@ export default function SearchBar() {
 
       updateImages(formattedImages);
     }
+    searchParams.set('sortBy', 'latest');
+    setSearchParams(searchParams);
     setIsLoading(isLoading);
   }, [isLoading, images]);
 
