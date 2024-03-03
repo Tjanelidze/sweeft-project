@@ -35,7 +35,10 @@ export default function SearchBar() {
 
       searchHistory.push(searchQuery.trim());
 
-      localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+      localStorage.setItem(
+        'searchHistory',
+        JSON.stringify([...new Set(searchHistory)])
+      );
     }
   };
 
