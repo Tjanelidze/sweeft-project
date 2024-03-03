@@ -1,17 +1,17 @@
 import React, { createContext, useState, useContext } from 'react';
 import { ImageContextType, UnsplashImage } from './interfaces';
 
-const ImageContext = createContext<ImageContextType | any>(undefined);
+const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
 export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [searchedImages, setSearchedImages] = useState<ImageContextType[]>([]);
+  const [searchedImages, setSearchedImages] = useState<UnsplashImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [targetImage, setTargetImage] = useState<UnsplashImage>();
 
-  const updateImages = (images: ImageContextType[]) => {
+  const updateImages = (images: UnsplashImage[]) => {
     setSearchedImages(images);
   };
 

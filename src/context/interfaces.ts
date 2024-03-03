@@ -1,8 +1,7 @@
 export interface UnsplashImage {
-  map(arg0: () => void): any;
-  alt_description: any;
-  urls: any;
-  id: any;
+  alt_description: string;
+  urls: string;
+  id: string;
   total: number;
 }
 
@@ -13,6 +12,8 @@ export interface ImageContextType {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  targetImage: UnsplashImage;
-  setTargetImage: React.Dispatch<React.SetStateAction<UnsplashImage>>;
+  targetImage: UnsplashImage | undefined;
+  setTargetImage: React.Dispatch<
+    React.SetStateAction<UnsplashImage | undefined>
+  >;
 }
